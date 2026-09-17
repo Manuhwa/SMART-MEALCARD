@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}{{ student.full_name }}{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <p class="eyebrow">Smart Student ID</p>
+    <h1>{{ student.full_name }}</h1>
+    <p class="lede">SRN {{ student.srn }} · {{ student.programme }}</p>
+  </div>
+  <div class="row">
+    {% if user.role == 'admin' %}
+    <a class="btn-ghost" href="{{ url_for('student_edit', student_id=student.id) }}">Edit particulars</a>
+    {% endif %}
+    <button class="btn" type="button" onclick="window.print()">Print card</button>
+  </div>
+</div>
+
+<section class="panel profile-hero">
+  <div class="profile-photo">
+    {% if student.photo %}<img src="{{ student.photo }}" alt="{{ student.full_name }}">{% else %}{{ student.first_name[:1] }}{{ student.last_name[:1] }}{% endif %}
+  </div>
+  <div>
+    <div class="row">
+      <span class="badge info">{{ student.status }}</span>
+      {% if student.meal_cleared %}
+        <span class="badge ok">Cleared for meals</span>
+      {% else %}
+        <span class="badge no">Not cleared for meals</span>
+      {% endif %}
+    </div>
+    {% if student.meal_block_reason %}<p class="muted">{{ student.meal_block_reason }}</p>{% endif %}
+    <div class="kv">
+      <div><b>SRN</b>{{ student.srn }}</div>
+      <div><b>National ID</b>{{ student.national_id }}</div>
+      <div><b>Date of birth</b>{{ student.date_of_birth }}</div>
+      <div><b>Gender</b>{{ student.gender }}</div>
+      <div><b>Phone</b>{{ student.phone or '—' }}</div>
+      <div><b>Email</b>{{ student.email or '—' }}</div>
+      <div><b>Department</b>{{ student.department }}</div>
+      <div><b>Specialization</b>{{ student.specialization or '—' }}</div>
+      <div><b>Year / intake</b>Year {{ student.year_of_study }} · {{ student.intake_year }}</div>
+      <div><b>Hostel</b>{{ student.hostel or 'Day scholar' }}{% if student.room_number %} · {{ student.room_number }}{% endif %}</div>
+      <div><b>Home district</b>{{ student.home_district or '—' }}</div>
+      <div><b>Home address</b>{{ student.home_address or '—' }}</div>
+      <div><b>Next of kin</b>{{ student.next_of_kin or '—' }}</div>
+      <div><b>Kin phone</b>{{ student.next_of_kin_phone or '—' }}</div>
+    </div>
+  </div>
+</section>
+
+<div class="grid-2" style="margin-top:18px">
+  <div>
+    <p class="eyebrow no-print">Printable card · front</p>
+    {% include "_id_card.html" %}
+  </div>
+  <div>
+    <p class="eyebrow no-print">Printable card · reverse</p>
+    {% with face='back' %}{% include "_id_card.html" %}{% endwith %}
+  </div>
+</div>
+
+<div class="grid-2" style="margin-top:18px">
+  <section class="panel">
+    <h2>Today’s meals</h2>
+    {% for meal, label, hours in meals %}
+      {% set slot = today_meals[meal] %}
+      <div class="list-item" style="margin-bottom:8px">
+        <div>
+          <strong>{{ label }}</strong>
+          <div class="muted">{{ hours }}</div>
+        </div>
+        {% if slot.served %}
+          <span class="badge ok">Portion collected</span>
+        {% elif not student.meal_cleared %}
+          <span class="badge no">Not cleared</span>
+        {% else %}
+          <span class="badge warn">Not yet collected</span>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </section>
+  <section class="panel">
+    <h2>Recent attendance</h2>
+    {% if attendance %}
+      <div class="list-compact">
+        {% for a in attendance %}
+        <div class="list-item">
+          <div>{{ a.attend_date }} · {{ a.session|replace('_',' ') }}<div class="muted">{{ a.course }}</div></div>
+          <span class="badge ok">{{ a.status }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="empty">No attendance marks yet.</p>
+    {% endif %}
+  </section>
+</div>
+
+<section class="panel" style="margin-top:18px">
+  <h2>Meal history</h2>
+  {% if meal_history %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Date</th><th>Meal</th><th>Issued at</th><th>By</th></tr></thead>
+      <tbody>
+        {% for m in meal_history %}
+        <tr>
+          <td>{{ m.meal_date }}</td>
+          <td>{{ m.meal_type|capitalize }}</td>
+          <td>{{ m.served_at }}</td>
+          <td>{{ m.served_by }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="empty">No meals have been issued to this card.</p>
+  {% endif %}
+</section>
+{% endblock %}

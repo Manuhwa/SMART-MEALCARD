@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in · Madziwa Teachers College Smart ID</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+<div class="login-shell">
+  <section class="login-hero">
+    <div>
+      <img src="{{ url_for('static', filename='img/crest.svg') }}" alt="MTC crest" width="78">
+      <p class="eyebrow" style="color:#e8d5a3;margin-top:28px">Shamva · Zimbabwe</p>
+      <h1>One Smart ID.<br>Attendance, meals, and student records.</h1>
+      <p style="max-width:36ch;color:#e8e0d0">Madziwa Teachers College digital student identity — scan for class, check a meal portion, and read every personal detail from the SRN card.</p>
+    </div>
+    <div>
+      <p style="letter-spacing:.16em;text-transform:uppercase;font-size:.75rem;color:#e8d5a3">Heritage-based Education 5.0</p>
+      <p>{{ college.motto }}</p>
+    </div>
+  </section>
+  <section class="login-panel">
+    <form class="login-card" method="post">
+      <p class="eyebrow">Staff & student desk</p>
+      <h2>Sign in to the Smart ID</h2>
+      <p class="muted">Use a staff account, or a student SRN with password <b>student123</b>.</p>
+      {% if error %}<div class="flash error">{{ error }}</div>{% endif %}
+      <div class="field" style="margin-top:16px">
+        <label for="username">Username or SRN</label>
+        <input id="username" name="username" required autofocus placeholder="admin or MTC/2024/0142">
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+      </div>
+      <button class="btn" style="margin-top:18px;width:100%;justify-content:center" type="submit">Enter college desk</button>
+      <div class="cred-grid">
+        <div class="cred"><span>Registry</span><b>admin / admin123</b></div>
+        <div class="cred"><span>Lecturer</span><b>lecturer / lecturer123</b></div>
+        <div class="cred"><span>Dining hall</span><b>kitchen / kitchen123</b></div>
+        <div class="cred"><span>Student (cleared)</span><b>MTC/2024/0142</b></div>
+        <div class="cred"><span>Student (not cleared)</span><b>MTC/2025/0087</b></div>
+      </div>
+    </form>
+  </section>
+</div>
+</body>
+</html>

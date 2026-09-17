@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Attendance{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <p class="eyebrow">Lecture desk</p>
+    <h1>Student attendance</h1>
+    <p class="lede">Scan a Smart ID or type the SRN. The same card used at the dining hall marks presence in class.</p>
+  </div>
+  <div class="badge info">{{ present }} present in this session</div>
+</div>
+
+<form class="filters" method="get">
+  <input type="date" name="date" value="{{ filters.date }}" style="max-width:170px">
+  <select name="session" style="max-width:220px">
+    {% for key, label in sessions %}
+    <option value="{{ key }}" {{ 'selected' if filters.session == key }}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <input type="text" name="course" value="{{ filters.course }}" placeholder="Course / lecture" style="max-width:240px">
+  <select name="programme" style="max-width:280px">
+    <option value="">All programmes</option>
+    {% for p in programmes %}
+    <option value="{{ p }}" {{ 'selected' if filters.programme == p }}>{{ p }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn" type="submit">Load roll</button>
+</form>
+
+<section class="terminal" data-page="attendance"
+  data-date="{{ filters.date }}"
+  data-session="{{ filters.session }}"
+  data-course="{{ filters.course }}">
+  <p class="eyebrow" style="color:#e8d5a3">Scan station</p>
+  <h2>Present the Smart ID</h2>
+  <div class="scan-row">
+    <input id="scan-input" type="text" placeholder="Scan QR or type SRN e.g. MTC/2024/0142" autofocus>
+    <button class="btn-gold" type="button" id="scan-btn">Mark present</button>
+    <button class="btn-ghost" type="button" id="camera-btn" style="color:#fff;border-color:#3d5a4c">Camera</button>
+  </div>
+  <div id="reader" hidden></div>
+  <div id="scan-result" class="result idle">
+    <div class="photo">ID</div>
+    <div>
+      <p class="status-word">Waiting for a card</p>
+      <p class="muted">Scan the QR on the reverse of the Smart ID, or enter the SRN.</p>
+    </div>
+  </div>
+</section>
+
+<section class="panel" style="margin-top:18px">
+  <h2>Class roll</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Student</th><th>SRN</th><th>Programme</th><th>Mark</th><th></th></tr></thead>
+      <tbody>
+        {% for s in class_list %}
+        <tr>
+          <td>{{ s.full_name }}</td>
+          <td class="srn">{{ s.srn }}</td>
+          <td>{{ s.programme }}</td>
+          <td>
+            {% if s.mark %}
+              <span class="badge {{ 'warn' if s.mark.status == 'late' else 'ok' if s.mark.status == 'present' else 'no' }}">{{ s.mark.status }}</span>
+            {% else %}
+              <span class="badge warn">Not marked</span>
+            {% endif %}
+          </td>
+          <td>
+            <button class="btn-ghost small mark-btn" data-srn="{{ s.srn }}" data-status="present">Present</button>
+            <button class="btn-ghost small mark-btn" data-srn="{{ s.srn }}" data-status="late">Late</button>
+            <button class="btn-ghost small mark-btn" data-srn="{{ s.srn }}" data-status="absent">Absent</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

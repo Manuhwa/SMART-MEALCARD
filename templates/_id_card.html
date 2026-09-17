@@ -1,0 +1,54 @@
+<article class="id-card {{ 'id-back' if face == 'back' }}" data-print-card>
+  {% if face != 'back' %}
+    <div class="id-top">
+      <div style="display:flex;gap:10px;align-items:center">
+        <img src="{{ url_for('static', filename='img/crest.svg') }}" alt="">
+        <div class="id-college">Madziwa Teachers College<small>Shamva · Zimbabwe</small></div>
+      </div>
+      <div class="id-chip">Smart ID</div>
+    </div>
+    <div class="id-body">
+      <div class="id-photo">
+        {% if student.photo %}
+          <img src="{{ student.photo }}" alt="{{ student.full_name }}">
+        {% else %}
+          {{ student.first_name[:1] }}{{ student.last_name[:1] }}
+        {% endif %}
+      </div>
+      <div>
+        <h3 class="id-name">{{ student.full_name }}</h3>
+        <div class="id-meta">{{ student.programme }}<br>{{ student.specialization or student.department }} · Year {{ student.year_of_study }}</div>
+        <div class="id-srn">
+          <span>Student Registration Number</span>
+          <b>{{ student.srn }}</b>
+        </div>
+      </div>
+      <div class="qr-box" data-qr="{{ student.qr_payload }}"></div>
+    </div>
+    <div class="id-foot">
+      <span>Attendance · Meal card · Identity</span>
+      <span>Valid {{ student.intake_year }}–{{ student.intake_year + 3 }}</span>
+    </div>
+  {% else %}
+    <div class="id-top">
+      <div class="id-college">Student particulars<small>Official college record</small></div>
+      <div class="id-chip">{{ student.srn }}</div>
+    </div>
+    <div class="id-stripe"></div>
+    <div class="id-back-grid">
+      <div><b>National ID</b>{{ student.national_id }}</div>
+      <div><b>Date of birth</b>{{ student.date_of_birth }}</div>
+      <div><b>Gender</b>{{ student.gender }}</div>
+      <div><b>Phone</b>{{ student.phone or '—' }}</div>
+      <div><b>Department</b>{{ student.department }}</div>
+      <div><b>Hostel / room</b>{{ student.hostel or 'Day scholar' }}{% if student.room_number %} · {{ student.room_number }}{% endif %}</div>
+      <div><b>Home district</b>{{ student.home_district or '—' }}</div>
+      <div><b>Next of kin</b>{{ student.next_of_kin or '—' }} {{ student.next_of_kin_phone }}</div>
+      <div class="full"><b>Meal status</b>{% if student.meal_cleared %}Cleared for dining hall{% else %}Not cleared{% if student.meal_block_reason %} — {{ student.meal_block_reason }}{% endif %}{% endif %}</div>
+    </div>
+    <div class="id-foot" style="color:#5d645f">
+      <span>{{ college.box }}</span>
+      <span>If found, return to Registry</span>
+    </div>
+  {% endif %}
+</article>

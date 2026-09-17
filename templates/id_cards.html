@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Smart ID cards{% endblock %}
+{% block content %}
+<div class="topbar no-print">
+  <div>
+    <p class="eyebrow">Identity cards</p>
+    <h1>Smart Student IDs</h1>
+    <p class="lede">Each card carries the SRN, personal particulars, a scan code for class and the dining hall, and meal clearance.</p>
+  </div>
+  <button class="btn" type="button" onclick="window.print()">Print cards</button>
+</div>
+
+{% if user.role != 'student' %}
+<form class="filters no-print" method="get">
+  <input type="text" name="q" value="{{ q }}" placeholder="Find a student" style="max-width:280px">
+  <button class="btn" type="submit">Search</button>
+</form>
+{% endif %}
+
+<div class="card-grid">
+  {% for student in students %}
+  <div>
+    {% include "_id_card.html" %}
+    <div class="card-actions no-print">
+      <a class="btn-ghost small" href="{{ url_for('student_profile', student_id=student.id) }}">Full particulars</a>
+    </div>
+  </div>
+  {% else %}
+  <p class="empty">No cards to display.</p>
+  {% endfor %}
+</div>
+{% endblock %}

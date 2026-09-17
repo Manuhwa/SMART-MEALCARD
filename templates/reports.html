@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <p class="eyebrow">College reports · {{ week_start }} to {{ today }}</p>
+    <h1>Attendance and meals</h1>
+    <p class="lede">Seven-day view of lecture presence, dining-hall portions, and programme clearance.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <section class="panel">
+    <h2>Students present by day</h2>
+    {% if attendance_week %}
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Unique students</th></tr></thead>
+        <tbody>
+          {% for row in attendance_week %}
+          <tr><td>{{ row.attend_date }}</td><td>{{ row.n }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <p class="empty">No attendance this week.</p>
+    {% endif %}
+  </section>
+  <section class="panel">
+    <h2>Meals issued this week</h2>
+    {% if meals_week %}
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Meal</th><th>Portions</th></tr></thead>
+        <tbody>
+          {% for row in meals_week %}
+          <tr><td>{{ row.meal_date }}</td><td>{{ row.meal_type|capitalize }}</td><td>{{ row.n }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <p class="empty">No meals recorded this week.</p>
+    {% endif %}
+  </section>
+</div>
+
+<section class="panel" style="margin-top:18px">
+  <h2>Programme roll and meal clearance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Programme</th><th>Students</th><th>Cleared for meals</th></tr></thead>
+      <tbody>
+        {% for row in by_programme %}
+        <tr>
+          <td>{{ row.programme }}</td>
+          <td>{{ row.n }}</td>
+          <td>{{ row.cleared }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel" style="margin-top:18px">
+  <h2>Lowest attendance marks this week</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Student</th><th>SRN</th><th>Marks recorded</th></tr></thead>
+      <tbody>
+        {% for s in top_absent %}
+        <tr>
+          <td>{{ s.full_name }}</td>
+          <td class="srn">{{ s.srn }}</td>
+          <td>{{ s.marks }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

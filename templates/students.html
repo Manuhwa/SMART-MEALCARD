@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <p class="eyebrow">Registry</p>
+    <h1>Student register</h1>
+    <p class="lede">Search by SRN, name, or national ID. Each record powers the Smart ID, attendance roll, and meal card.</p>
+  </div>
+  {% if user.role == 'admin' %}
+  <a class="btn" href="{{ url_for('student_new') }}">Register student</a>
+  {% endif %}
+</div>
+
+<form class="filters" method="get">
+  <input type="text" name="q" value="{{ filters.q }}" placeholder="Search SRN, name, national ID" style="max-width:280px">
+  <select name="programme" style="max-width:320px">
+    <option value="">All programmes</option>
+    {% for p in programmes %}
+    <option value="{{ p }}" {{ 'selected' if filters.programme == p }}>{{ p }}</option>
+    {% endfor %}
+  </select>
+  <select name="year" style="max-width:140px">
+    <option value="">All years</option>
+    {% for y in [1,2,3] %}
+    <option value="{{ y }}" {{ 'selected' if filters.year == y|string }}>Year {{ y }}</option>
+    {% endfor %}
+  </select>
+  <select name="clearance" style="max-width:180px">
+    <option value="">All meal statuses</option>
+    <option value="cleared" {{ 'selected' if filters.clearance == 'cleared' }}>Cleared</option>
+    <option value="blocked" {{ 'selected' if filters.clearance == 'blocked' }}>Not cleared</option>
+  </select>
+  <button class="btn" type="submit">Filter</button>
+</form>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>SRN</th>
+        <th>Programme</th>
+        <th>Year</th>
+        <th>Meals</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in students %}
+      <tr>
+        <td>
+          <div class="person">
+            <div class="avatar">
+              {% if s.photo %}<img src="{{ s.photo }}" alt="">{% else %}{{ s.first_name[:1] }}{{ s.last_name[:1] }}{% endif %}
+            </div>
+            <div>
+              <strong>{{ s.full_name }}</strong>
+              <div class="muted">{{ s.national_id }} · {{ s.gender }}</div>
+            </div>
+          </div>
+        </td>
+        <td class="srn">{{ s.srn }}</td>
+        <td>{{ s.programme }}<div class="muted">{{ s.specialization }}</div></td>
+        <td>{{ s.year_of_study }}</td>
+        <td>
+          {% if s.meal_cleared %}
+            <span class="badge ok">Cleared</span>
+          {% else %}
+            <span class="badge no">Not cleared</span>
+          {% endif %}
+        </td>
+        <td><a class="btn-ghost small" href="{{ url_for('student_profile', student_id=s.id) }}">Open ID</a></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6" class="empty">No students match those filters.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

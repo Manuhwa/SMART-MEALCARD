@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Meal hall{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <p class="eyebrow">Dining hall</p>
+    <h1>Meal card station</h1>
+    <p class="lede">Scan the Smart ID. The system allows one portion per meal, and refuses students who are not cleared.</p>
+  </div>
+  <div class="badge info">{{ count }} {{ meal }} portions issued today</div>
+</div>
+
+<section class="terminal" data-page="meals" data-meal="{{ meal }}">
+  <div class="meal-pills">
+    {% for key, label, hours in meals %}
+    <a href="{{ url_for('meal_hall', meal=key) }}" class="{{ 'active' if meal == key }}">{{ label }} · {{ hours }}</a>
+    {% endfor %}
+  </div>
+  <h2 style="margin-top:16px">Scan for {{ meal }}</h2>
+  <div class="scan-row">
+    <input id="scan-input" type="text" placeholder="Scan QR or type SRN" autofocus>
+    <button class="btn-gold" type="button" id="scan-btn">Check & serve</button>
+    <button class="btn-ghost" type="button" id="camera-btn" style="color:#fff;border-color:#3d5a4c">Camera</button>
+  </div>
+  <div id="reader" hidden></div>
+  <div id="scan-result" class="result idle">
+    <div class="photo">ID</div>
+    <div>
+      <p class="status-word">Ready to scan</p>
+      <p>The card must belong to a registered student. A second tap for the same meal is blocked.</p>
+    </div>
+  </div>
+</section>
+
+<section class="panel" style="margin-top:18px">
+  <h2>{{ meal|capitalize }} issued today</h2>
+  {% if served %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Time</th><th>Student</th><th>SRN</th><th>Programme</th></tr></thead>
+      <tbody>
+        {% for s in served %}
+        <tr>
+          <td>{{ s.served_at[11:16] if s.served_at|length >= 16 else s.served_at }}</td>
+          <td>{{ s.full_name }}</td>
+          <td class="srn">{{ s.srn }}</td>
+          <td>{{ s.programme }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="empty">No {{ meal }} portions issued yet.</p>
+  {% endif %}
+</section>
+{% endblock %}
