@@ -56,7 +56,7 @@ SESSIONS = [
 MEALS = [
     ("breakfast", "Breakfast", "06:30-08:30"),
     ("lunch", "Lunch", "12:00-14:00"),
-    ("dinner", "Dinner", "17:30-19:30"),
+    ("dinner", "Supper", "17:30-19:30"),
 ]
 
 HOSTELS = ["Nyerere Hall", "Kaguvi Hall", "Mbuya Nehanda Hall", "Chaminuka Hall"]
@@ -295,7 +295,7 @@ def suggested_meal() -> str:
         return "breakfast"
     if hour < 16:
         return "lunch"
-    return "dinner"
+    return "dinner"  # DB value remains "dinner" for compatibility
 
 
 def meal_status_for(student_id: int, day: str | None = None) -> dict:
@@ -867,11 +867,28 @@ def api_serve_meal():
             }
         ), 409
     now = datetime.now().isoformat(timespec="seconds")
-    get_db().execute(
-        "INSERT INTO meal_servings (student_id, meal_date, meal_type, served_at, served_by) VALUES (?,?,?,?,?)",
-        (student["id"], today, meal_type, now, current_user()["full_name"]),
-    )
-    get_db().commit()
+    try:
+        get_db().execute(
+            "INSERT INTO meal_servings (student_id, meal_date, meal_type, served_at, served_by) VALUES (?,?,?,?,?)",
+            (student["id"], today, meal_type, now, current_user()["full_name"]),
+        )
+        get_db().commit()
+    except sqlite3.IntegrityError:
+        # Race condition: concurrent scan inserted the same meal between our check and insert
+        get_db().rollback()
+        already = get_db().execute(
+            "SELECT served_at FROM meal_servings WHERE student_id = ? AND meal_date = ? AND meal_type = ?",
+            (student["id"], today, meal_type),
+        ).fetchone()
+        return jsonify(
+            {
+                "ok": False,
+                "code": "already_served",
+                "message": f"Portion already collected for {meal_type} at {already['served_at'][11:16] if already and len(already['served_at']) >= 16 else 'just now'}.",
+                "student": student,
+                "served_at": already["served_at"] if already else now,
+            }
+        ), 409
     return jsonify(
         {
             "ok": True,
