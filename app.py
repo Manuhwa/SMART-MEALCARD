@@ -165,17 +165,17 @@ def seed_data(db: sqlite3.Connection):
         )
 
     students = [
-        ("MTC/2024/0142", "Tendai", "Moyo", "Tafadzwa", "Male", "2003-04-18", "63-2187452-A-42", "0772123401", "tendai.moyo@student.madziwatc.ac.zw", PROGRAMMES[0], "Literacy & Numeracy", 2, 2024, DEPARTMENTS[0], "Shamva", "Ward 8, Madziwa", "Mrs. S. Moyo", "0773452100", HOSTELS[0], "A12", 1, "", "active"),
-        ("MTC/2025/0087", "Chipo", "Nyathi", "Rumbidzai", "Female", "2005-09-02", "08-1944331-B-08", "0783342210", "chipo.nyathi@student.madziwatc.ac.zw", PROGRAMMES[1], "Early Childhood Pedagogy", 1, 2025, DEPARTMENTS[0], "Bindura", "Chiwaridzo, Bindura", "Mr. K. Nyathi", "0778891204", HOSTELS[2], "C04", 0, "Outstanding boarding and meal fees — Term 2", "active"),
+        ("23GEN002", "Tendai", "Moyo", "Tafadzwa", "Male", "2003-04-18", "63-2187452-A-42", "0772123401", "tendai.moyo@student.madziwatc.ac.zw", PROGRAMMES[0], "Literacy & Numeracy", 2, 2023, DEPARTMENTS[0], "Shamva", "Ward 8, Madziwa", "Mrs. S. Moyo", "0773452100", HOSTELS[0], "A12", 1, "", "active"),
+        ("MTC/2025/0087", "Chipo", "Nyathi", "Rumbidzai", "Female", "2005-09-02", "08-1944331-B-08", "0783342210", "chipo.nyathi@student.madziwatc.ac.zw", PROGRAMMES[1], "Early Childhood Pedagogy", 1, 2025, DEPARTMENTS[0], "Bindura", "Chiwaridzo, Bindura", "Mr. K. Nyathi", "0778891204", HOSTELS[2], "C04", 0, "Outstanding boarding and meal fees â€” Term 2", "active"),
         ("MTC/2024/0031", "Tafadzwa", "Chikwanha", "", "Male", "2002-11-27", "75-2033118-C-75", "0712456789", "tafadzwa.chikwanha@student.madziwatc.ac.zw", PROGRAMMES[3], "Mathematics & Physics", 2, 2024, DEPARTMENTS[2], "Mazowe", "Glendale", "Mrs. A. Chikwanha", "0772210987", HOSTELS[1], "B07", 1, "", "active"),
         ("MTC/2023/0198", "Rudo", "Mutasa", "Nyasha", "Female", "2001-06-14", "63-1877204-D-63", "0776567890", "rudo.mutasa@student.madziwatc.ac.zw", PROGRAMMES[2], "English & History and Heritage Studies", 3, 2023, DEPARTMENTS[1], "Harare", "Mbare, Harare", "Mr. T. Mutasa", "0774123009", HOSTELS[2], "C19", 1, "", "active"),
         ("MTC/2025/0055", "Blessing", "Dube", "Nkosana", "Male", "2004-01-09", "08-2211456-E-08", "0789901234", "blessing.dube@student.madziwatc.ac.zw", PROGRAMMES[3], "Agriculture", 1, 2025, DEPARTMENTS[2], "Bulawayo", "Nkulumane, Bulawayo", "Mrs. P. Dube", "0713344556", HOSTELS[0], "A21", 1, "", "active"),
-        ("MTC/2024/0110", "Farai", "Ncube", "", "Male", "2003-08-21", "28-1998345-F-28", "0772233445", "farai.ncube@student.madziwatc.ac.zw", PROGRAMMES[0], "Social Studies", 2, 2024, DEPARTMENTS[3], "Gweru", "Mkoba 14, Gweru", "Mr. L. Ncube", "0776677889", HOSTELS[3], "D02", 0, "Disciplinary suspension from dining hall — pending hearing", "active"),
+        ("MTC/2024/0110", "Farai", "Ncube", "", "Male", "2003-08-21", "28-1998345-F-28", "0772233445", "farai.ncube@student.madziwatc.ac.zw", PROGRAMMES[0], "Social Studies", 2, 2024, DEPARTMENTS[3], "Gweru", "Mkoba 14, Gweru", "Mr. L. Ncube", "0776677889", HOSTELS[3], "D02", 0, "Disciplinary suspension from dining hall â€” pending hearing", "active"),
         ("MTC/2023/0076", "Nyasha", "Gumbo", "Tariro", "Female", "2002-03-30", "22-1765432-G-22", "0718899001", "nyasha.gumbo@student.madziwatc.ac.zw", PROGRAMMES[1], "Inclusive ECD Practice", 3, 2023, DEPARTMENTS[0], "Mutare", "Dangamvura, Mutare", "Mrs. M. Gumbo", "0775566778", HOSTELS[2], "C11", 1, "", "active"),
         ("MTC/2025/0201", "Tinashe", "Mhlanga", "", "Male", "2005-12-05", "45-2301987-H-45", "0781122334", "tinashe.mhlanga@student.madziwatc.ac.zw", PROGRAMMES[2], "ChiShona & Geography and Environmental Studies", 1, 2025, DEPARTMENTS[1], "Mount Darwin", "Pfura, Mt Darwin", "Mr. S. Mhlanga", "0779988776", HOSTELS[1], "B15", 1, "", "active"),
         ("MTC/2024/0064", "Precious", "Sibanda", "Nokuthula", "Female", "2003-07-12", "08-2100456-J-08", "0774455667", "precious.sibanda@student.madziwatc.ac.zw", PROGRAMMES[3], "Biology & Chemistry", 2, 2024, DEPARTMENTS[2], "Gwanda", "Jahunda, Gwanda", "Mrs. B. Sibanda", "0712233445", HOSTELS[2], "C08", 1, "", "active"),
         ("MTC/2023/0144", "Kudzai", "Mpofu", "Simbarashe", "Male", "2001-10-03", "63-1654321-K-63", "0786677889", "kudzai.mpofu@student.madziwatc.ac.zw", PROGRAMMES[0], "Mathematics", 3, 2023, DEPARTMENTS[4], "Shamva", "Madziwa Mine", "Mrs. C. Mpofu", "0773344556", HOSTELS[0], "A03", 1, "", "active"),
-        ("MTC/2025/0118", "Rutendo", "Chari", "", "Female", "2006-02-19", "63-2401123-L-63", "0717788990", "rutendo.chari@student.madziwatc.ac.zw", PROGRAMMES[1], "Child Development", 1, 2025, DEPARTMENTS[0], "Bindura", "Chipadze, Bindura", "Mr. G. Chari", "0778890012", HOSTELS[2], "C22", 0, "Outstanding meal levy — finance office", "active"),
+        ("MTC/2025/0118", "Rutendo", "Chari", "", "Female", "2006-02-19", "63-2401123-L-63", "0717788990", "rutendo.chari@student.madziwatc.ac.zw", PROGRAMMES[1], "Child Development", 1, 2025, DEPARTMENTS[0], "Bindura", "Chipadze, Bindura", "Mr. G. Chari", "0778890012", HOSTELS[2], "C22", 0, "Outstanding meal levy â€” finance office", "active"),
         ("MTC/2024/0089", "Simbarashe", "Mupfumi", "Tawanda", "Male", "2002-05-25", "75-1987654-M-75", "0775566001", "simba.mupfumi@student.madziwatc.ac.zw", PROGRAMMES[3], "Computer Science & Mathematics", 2, 2024, DEPARTMENTS[2], "Harare", "Highfield, Harare", "Mrs. J. Mupfumi", "0782233445", HOSTELS[3], "D18", 1, "", "active"),
     ]
 
@@ -197,7 +197,7 @@ def seed_data(db: sqlite3.Connection):
     yesterday = (date.today() - timedelta(days=1)).isoformat()
 
     for srn, session_name, course in [
-        ("MTC/2024/0142", "morning", "Theory of Education"),
+        ("23GEN002", "morning", "Theory of Education"),
         ("MTC/2024/0031", "morning", "Theory of Education"),
         ("MTC/2023/0198", "morning", "Theory of Education"),
         ("MTC/2024/0064", "morning", "Theory of Education"),
@@ -216,7 +216,7 @@ def seed_data(db: sqlite3.Connection):
         )
 
     for srn, meal_date, meal_type, when in [
-        ("MTC/2024/0142", today, "breakfast", now),
+        ("23GEN002", today, "breakfast", now),
         ("MTC/2024/0031", today, "breakfast", now),
         ("MTC/2023/0198", today, "breakfast", now),
         ("MTC/2024/0064", today, "breakfast", now),
@@ -847,7 +847,7 @@ def api_serve_meal():
             {
                 "ok": False,
                 "code": "not_cleared",
-                "message": student["meal_block_reason"] or "Student is not cleared for meals.",
+                "message": f"DH REFUSED — Smart ID {student['srn']} is not cleared. {(student['meal_block_reason'] or 'Student is not cleared for the dining hall.')}",
                 "student": student,
             }
         ), 403
@@ -950,3 +950,4 @@ def not_found(_e):
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
+

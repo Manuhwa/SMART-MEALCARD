@@ -275,6 +275,47 @@ textarea { min-height: 84px; resize: vertical; }
 .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(430px, 1fr)); gap: 22px; }
 .card-actions { display: flex; gap: 8px; margin-top: 10px; }
 
+
+/* Digital Smart ID enhancements */
+.id-brand { display:flex; gap:10px; align-items:center; }
+.id-main { min-width:0; }
+.id-scan { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.qr-caption { font-size:0.55rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-soft); text-align:center; max-width:88px; line-height:1.2; }
+.id-status {
+  display:inline-flex; margin-top:8px; padding:4px 9px; border-radius:999px;
+  font-size:0.62rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase;
+}
+.id-status.ok { background:#dcefe4; color:#14532d; }
+.id-status.no { background:var(--clay-soft); color:#7f1d1d; }
+.id-front .id-status.ok { background:rgba(220,239,228,0.92); }
+.id-front .id-status.no { background:rgba(243,214,208,0.95); }
+.id-uses {
+  position:absolute; left:18px; right:18px; bottom:12px; z-index:1;
+  display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+  font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; color:#d9ccaa;
+}
+.id-uses span:not(.id-valid) {
+  border:1px solid rgba(201,162,77,0.35); border-radius:999px; padding:3px 8px; color:var(--gold-soft);
+}
+.id-uses .id-valid { margin-left:auto; color:#d9ccaa; }
+.id-meal-banner {
+  border-radius:10px; padding:10px 12px !important;
+  border:1px solid rgba(12,51,36,0.12);
+}
+.id-meal-banner.ok { background:#dcefe4; }
+.id-meal-banner.no { background:var(--clay-soft); }
+.id-foot-dark { color:#5d645f !important; }
+
+/* Phone digital wallet preview */
+.digital-wallet {
+  max-width:430px; margin:0 auto;
+  display:grid; gap:16px;
+}
+.digital-wallet .id-card { width:100%; }
+.wallet-hint {
+  text-align:center; color:var(--muted); font-size:0.9rem;
+}
+
 /* Terminal / kiosk */
 .terminal {
   background: #071912;
@@ -361,3 +402,101 @@ textarea { min-height: 84px; resize: vertical; }
   .stats, .grid-2, .grid-3, .form-grid, .id-body, .result, .profile-hero, .scan-row { grid-template-columns: 1fr; }
   .id-card { width: 100%; height: auto; min-height: 270px; }
 }
+
+
+/* Official Madziwa logo on Smart ID */
+.id-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid rgba(201, 162, 77, 0.55);
+}
+.id-logo-sm { width: 40px; height: 40px; }
+.id-card.dh-blocked .id-uses .use-no {
+  background: rgba(155, 59, 44, 0.9);
+  border-color: #9b3b2c;
+  color: #fff;
+  text-decoration: line-through;
+}
+.id-card.dh-cleared .id-uses .use-ok {
+  background: rgba(201, 162, 77, 0.25);
+  border-color: var(--gold);
+  color: var(--gold-soft);
+}
+.id-card.dh-blocked {
+  box-shadow: 0 18px 40px rgba(155, 59, 44, 0.18);
+}
+
+
+
+/* Madziwa Teachers College logo palette */
+:root {
+  --mtc-green: #3D9B3A;
+  --mtc-green-deep: #2E7D32;
+  --mtc-green-dark: #1B5E20;
+  --mtc-gold: #C9A227;
+  --mtc-gold-deep: #B8892E;
+  --mtc-gold-soft: #E8D48A;
+  --mtc-black: #1A1A1A;
+  --mtc-white: #FFFFFF;
+  --mtc-cream: #FFFDF8;
+  --forest: var(--mtc-green-dark);
+  --forest-mid: var(--mtc-green-deep);
+  --forest-light: var(--mtc-green);
+  --gold: var(--mtc-gold);
+  --gold-soft: var(--mtc-gold-soft);
+  --gold-deep: var(--mtc-gold-deep);
+  --ink: var(--mtc-black);
+  --paper: var(--mtc-cream);
+}
+
+/* Smart ID skin from logo colors */
+.id-card.id-front, .id-card:not(.id-back) {
+  background:
+    linear-gradient(180deg, var(--mtc-green-dark) 0 64px, var(--mtc-white) 64px 100%);
+  color: var(--mtc-black);
+  border: 2px solid var(--mtc-gold);
+  box-shadow: 0 16px 36px rgba(26, 26, 26, 0.16);
+}
+.id-card.id-front .id-top,
+.id-card:not(.id-back) .id-top {
+  color: var(--mtc-white);
+}
+.id-card.id-front .id-college,
+.id-card:not(.id-back) .id-college { color: var(--mtc-white); }
+.id-card.id-front .id-college small,
+.id-card:not(.id-back) .id-college small { color: var(--mtc-gold-soft); }
+.id-chip {
+  background: var(--mtc-gold) !important;
+  color: var(--mtc-black) !important;
+}
+.id-srn, .id-srn {
+  background: rgba(61, 155, 58, 0.08);
+  border: 1.5px solid var(--mtc-gold);
+}
+.id-srn span { color: var(--mtc-green-deep); }
+.id-uses {
+  background: var(--mtc-green-dark);
+  color: var(--mtc-white);
+  border-color: transparent;
+}
+.id-uses span {
+  border-color: rgba(201, 162, 39, 0.55);
+  color: var(--mtc-gold-soft);
+}
+.id-status.ok { background: #E8F5E9; color: var(--mtc-green-dark); }
+.id-status.no { background: #FFEBEE; color: #B71C1C; }
+.id-meal-banner.ok { background: #E8F5E9; border-color: var(--mtc-green); }
+.id-meal-banner.no { background: #FFEBEE; border-color: #C62828; color: #B71C1C; }
+.id-logo {
+  border-color: var(--mtc-gold) !important;
+  background: var(--mtc-white) !important;
+}
+.sidebar {
+  background: linear-gradient(180deg, var(--mtc-green-dark) 0%, var(--mtc-green-deep) 55%, #143d16 100%) !important;
+}
+.btn { background: var(--mtc-green-deep) !important; }
+.btn-gold, .btn-gold { background: var(--mtc-gold) !important; color: var(--mtc-black) !important; }
+.badge.ok { background: #E8F5E9; color: var(--mtc-green-dark); }

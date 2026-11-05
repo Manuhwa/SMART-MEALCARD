@@ -1,9 +1,9 @@
-<article class="id-card {{ 'id-back' if face == 'back' }}" data-print-card>
+<article class="id-card {{ 'id-back' if face == 'back' else 'id-front' }} {{ 'dh-blocked' if not student.meal_cleared else 'dh-cleared' }}" data-print-card>
   {% if face != 'back' %}
     <div class="id-top">
-      <div style="display:flex;gap:10px;align-items:center">
-        <img src="{{ url_for('static', filename='img/crest.svg') }}" alt="">
-        <div class="id-college">Madziwa Teachers College<small>Shamva · Zimbabwe</small></div>
+      <div class="id-brand">
+        <img class="id-logo" src="{{ url_for('static', filename='img/madziwa-logo.jpeg') }}" alt="Madziwa Teachers College">
+        <div class="id-college">Madziwa Teachers College<small>Shamva · Zimbabwe · The Golden Beacon</small></div>
       </div>
       <div class="id-chip">Smart ID</div>
     </div>
@@ -15,23 +15,34 @@
           {{ student.first_name[:1] }}{{ student.last_name[:1] }}
         {% endif %}
       </div>
-      <div>
+      <div class="id-main">
         <h3 class="id-name">{{ student.full_name }}</h3>
-        <div class="id-meta">{{ student.programme }}<br>{{ student.specialization or student.department }} · Year {{ student.year_of_study }}</div>
+        <div class="id-meta">{{ student.programme }}{% if student.specialization %} · {{ student.specialization }}{% elif student.department %} · {{ student.department }}{% endif %}</div>
         <div class="id-srn">
-          <span>Student Registration Number</span>
+          <span>SRN</span>
           <b>{{ student.srn }}</b>
         </div>
+        <div class="id-status {{ 'ok' if student.meal_cleared else 'no' }}">
+          {% if student.meal_cleared %}DH cleared — meals allowed{% else %}DH not cleared — meals refused{% endif %}
+        </div>
       </div>
-      <div class="qr-box" data-qr="{{ student.qr_payload }}"></div>
+      <div class="id-scan">
+        <div class="qr-box" data-qr="{{ student.qr_payload }}"></div>
+        <span class="qr-caption">Scan for class{% if student.meal_cleared %} &amp; meals{% else %} only{% endif %}</span>
+      </div>
     </div>
-    <div class="id-foot">
-      <span>Attendance · Meal card · Identity</span>
-      <span>Valid {{ student.intake_year }}–{{ student.intake_year + 3 }}</span>
+    <div class="id-uses">
+      <span>Identity</span>
+      <span>Attendance</span>
+      <span class="{{ 'use-ok' if student.meal_cleared else 'use-no' }}">Dining hall</span>
+      <span class="id-valid">Valid {{ student.intake_year }}–{{ student.intake_year + 3 }}</span>
     </div>
   {% else %}
     <div class="id-top">
-      <div class="id-college">Student particulars<small>Official college record</small></div>
+      <div class="id-brand">
+        <img class="id-logo id-logo-sm" src="{{ url_for('static', filename='img/madziwa-logo.jpeg') }}" alt="">
+        <div class="id-college">Student particulars<small>Official college record · 3-year Smart ID</small></div>
+      </div>
       <div class="id-chip">{{ student.srn }}</div>
     </div>
     <div class="id-stripe"></div>
@@ -44,10 +55,17 @@
       <div><b>Hostel / room</b>{{ student.hostel or 'Day scholar' }}{% if student.room_number %} · {{ student.room_number }}{% endif %}</div>
       <div><b>Home district</b>{{ student.home_district or '—' }}</div>
       <div><b>Next of kin</b>{{ student.next_of_kin or '—' }} {{ student.next_of_kin_phone }}</div>
-      <div class="full"><b>Meal status</b>{% if student.meal_cleared %}Cleared for dining hall{% else %}Not cleared{% if student.meal_block_reason %} — {{ student.meal_block_reason }}{% endif %}{% endif %}</div>
+      <div class="full id-meal-banner {{ 'ok' if student.meal_cleared else 'no' }}">
+        <b>Dining hall</b>
+        {% if student.meal_cleared %}
+          Cleared — this ID may approve DH meals
+        {% else %}
+          NOT CLEARED — this ID cannot approve DH meals{% if student.meal_block_reason %} ({{ student.meal_block_reason }}){% endif %}
+        {% endif %}
+      </div>
     </div>
-    <div class="id-foot" style="color:#5d645f">
-      <span>{{ college.box }}</span>
+    <div class="id-foot">
+      <span>Madziwa Teachers College · Shamva</span>
       <span>If found, return to Registry</span>
     </div>
   {% endif %}
